@@ -1,0 +1,91 @@
+{% include 'app/nav.html' %}
+{% load static %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GreatBlogs.com | All Posts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="{% static 'fontawesomefree/js/all.min.js' %}"></script>
+
+    <style>
+        a {
+            text-decoration: none;
+            color: rgb(0, 16, 107);
+        }
+
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .date {
+            float: right;
+            color: rgb(9, 169, 175);
+        }
+
+
+
+
+
+        .likesCount {
+            color: red;
+        }
+    </style>
+</head>
+
+{% if posts %}
+
+<body class="container-fluid color-secondary">
+    <h3 class="container">All Posts related to <strong>{{ category }} <br> <br></strong> <a
+            href="{% url 'allCategories' %}" class="btn btn-outline-primary back"><small><i
+                    class="fa-solid fa-angle-left"></i>
+                Go Back</small></a></h3>
+    <br>
+    {% for post in posts %}
+
+
+    <div class="container border border-secondary rounded-3">
+        <div class="card-header text-primary">
+            <strong>@{{ post.author.username }}</strong> <span
+                class="badge rounded-pill bg-primary">#{{post.category}}</span>
+            <strong class="date">{{post.date_created}}</strong>
+        </div>
+        <div class="card-body">
+            <h6 class="card-title text-success"><a href="{% url 'viewPost' post.id %}">{{ post.title }}</a></h6>
+            <small>
+                <p class="card-text">{{ post.body|safe | slice:":100" }}</p>
+            </small>
+            <br>
+            <span class="likesCount"><strong><i class="fa-solid fa-heart"></i>
+                    {{ post.likes.count}} likes</strong></span>
+
+        </div>
+    </div>
+    <br>
+
+    {% endfor %}
+
+    {% else %}
+
+    <h3 class="container-fluid"><b>Sorry,</b> no posts found ralated to <strong>{{ category }}</strong></h3>
+
+    {% endif %}
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
